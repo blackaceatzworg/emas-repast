@@ -51,6 +51,7 @@ public class Agent {
 		}
 		if (energy > 0) {
 			moveTowards(pointWithMostAgents);
+			greet();
 		} else {
 			// / ginieeee
 			energy = 0;// startingEnergy;
