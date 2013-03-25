@@ -7,6 +7,8 @@ import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.context.space.grid.GridFactory;
 import repast.simphony.context.space.grid.GridFactoryFinder;
 import repast.simphony.dataLoader.ContextBuilder;
+import repast.simphony.engine.environment.RunEnvironment;
+import repast.simphony.parameter.Parameters;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.space.continuous.ContinuousSpace;
 import repast.simphony.space.continuous.NdPoint;
@@ -39,9 +41,11 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 				new GridBuilderParameters<Object>(new WrapAroundBorders(),
 						new SimpleGridAdder<Object>(), true, 50, 50));
 
-		int agentCount = 100;
+		Parameters params = RunEnvironment.getInstance().getParameters();
+		
+		int agentCount = (Integer)params.getValue("agent_count"); //100;
 		for (int i = 0; i < agentCount; i++) {
-			int energy = RandomHelper.nextIntFromTo(4, 10);
+			int energy = RandomHelper.nextIntFromTo(20, 30);
 			context.add(new Agent(space, grid, energy));
 		}
 

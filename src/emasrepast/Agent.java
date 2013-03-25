@@ -41,20 +41,28 @@ public class Agent {
 		List<GridCell<Agent>> gridCells = nghCreator.getNeighborhood(true);
 		SimUtilities.shuffle(gridCells, RandomHelper.getUniform());
 
-		GridPoint pointWithMostAgents = null;
-		int maxCount = -1;
-		for (GridCell<Agent> cell : gridCells) {
-			if (cell.size() > maxCount) {
-				pointWithMostAgents = cell.getPoint();
-				maxCount = cell.size();
-			}
-		}
+		int randomIndex = RandomHelper.nextIntFromTo(0, gridCells.size() - 1);
+		GridPoint randomPoint = gridCells.get(randomIndex).getPoint();
+//		int maxCount = -1;
+//		for (GridCell<Agent> cell : gridCells) {
+//			if (cell.size() > maxCount) {
+//				pointWithMostAgents = cell.getPoint();
+//				maxCount = cell.size();
+//			}
+//		}
+		
+		
 		if (energy > 0) {
-			moveTowards(pointWithMostAgents);
+			moveTowards(randomPoint);
 			greet();
+			
 		} else {
-			// / ginieeee
+			// stopped moving
 			energy = 0;// startingEnergy;
+			
+			//// dying
+			//Context<Object> context = ContextUtils.getContext(this);
+			//context.remove(this);
 		}
 	}
 
@@ -97,8 +105,41 @@ public class Agent {
 //			grid.moveTo(agent, pt.getX(), pt.getY());
 
 			Network<Object> net = (Network<Object>) context.getProjection("greetings network");
-			net.addEdge(this, obj);
+			
+			Agent other = (Agent) obj;
+			int mine = this.rollTheDice();
+			int his = other.rollTheDice();
+			if (mine > his){
+				this.increaseEnergy(5);
+				other.decreaseEnergy(5);
+								
+				net.addEdge(this, obj);
+			} else if(mine < his) {
+				this.decreaseEnergy(5);
+				other.increaseEnergy(5);
+				
+				net.addEdge(obj, this);
+			} else {
+				net.addEdge(this, obj);
+				net.addEdge(obj, this);
+			}
+									
 		}
 	}
+	
+	public int rollTheDice(){
+		return RandomHelper.nextIntFromTo(0, 20);
+	}
 
+	public void increaseEnergy(int n){
+		this.energy += n;
+	}
+	
+	public void decreaseEnergy(int n){
+		this.energy -= n;
+	}
+	
+	public int getEnergy(){
+		return this.energy;
+	}
 }
