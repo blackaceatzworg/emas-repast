@@ -1,15 +1,9 @@
 *.class
 
-
-
 # Package Files #
-
 *.jar
-
 *.war
-
 *.ear
-
 ModelOutput*.txt
 velocity.log
 Repast.settings
