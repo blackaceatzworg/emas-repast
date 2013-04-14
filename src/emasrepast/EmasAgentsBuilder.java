@@ -17,6 +17,7 @@ import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridBuilderParameters;
 import repast.simphony.space.grid.SimpleGridAdder;
 import repast.simphony.space.grid.WrapAroundBorders;
+import server.Server;
 
 public class EmasAgentsBuilder implements ContextBuilder<Object> {
 
@@ -42,6 +43,8 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 						new SimpleGridAdder<Object>(), true, 50, 50));
 
 		Parameters params = RunEnvironment.getInstance().getParameters();
+		
+		new Server(context, space, grid);
 		
 		int agentCount = (Integer)params.getValue("agent_count"); //100;
 		for (int i = 0; i < agentCount; i++) {
