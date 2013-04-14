@@ -19,14 +19,22 @@ import repast.simphony.util.SimUtilities;
 
 public class Agent {
 
+	private static final double REPRODUCING_THRESHOLD = 0.6;
+	private static final double DYING_THRESHOLD = 0.3;
+	private static final int MAX_FIT = 20;
 	private ContinuousSpace<Object> space;
 	private Grid<Object> grid;
 	private int energy, startingEnergy;
 
+	public int getStartingEnergy() {
+		return startingEnergy;
+	}
+
 	public Agent(ContinuousSpace<Object> space, Grid<Object> grid, int energy) {
 		this.space = space;
 		this.grid = grid;
-		this.energy = startingEnergy = energy;
+		this.energy = energy;
+		this.startingEnergy = energy;
 	}
 
 	@ScheduledMethod(start = 1, interval = 1)
@@ -43,26 +51,88 @@ public class Agent {
 
 		int randomIndex = RandomHelper.nextIntFromTo(0, gridCells.size() - 1);
 		GridPoint randomPoint = gridCells.get(randomIndex).getPoint();
-//		int maxCount = -1;
-//		for (GridCell<Agent> cell : gridCells) {
-//			if (cell.size() > maxCount) {
-//				pointWithMostAgents = cell.getPoint();
-//				maxCount = cell.size();
-//			}
+		// int maxCount = -1;
+		// for (GridCell<Agent> cell : gridCells) {
+		// if (cell.size() > maxCount) {
+		// pointWithMostAgents = cell.getPoint();
+		// maxCount = cell.size();
+		// }
+		// }
+
+		moveTowards(randomPoint);
+		meetOtherAgents();
+
+//		if (this.isLikelyToDie()) {
+		tryToDie();
 //		}
-		
-		
-		if (energy > 0) {
-			moveTowards(randomPoint);
-			greet();
+
+	}
+
+	public boolean isAbleToReproduce() {
+		return energy > REPRODUCING_THRESHOLD * startingEnergy;
+	}
+
+	public boolean isLikelyToDie() {
+		return energy < DYING_THRESHOLD * startingEnergy;
+	}
+
+	public void tryToDie() {
+		double ratio = energy / (startingEnergy + 0.0);
+		double rand = RandomHelper.nextDoubleFromTo(0, DYING_THRESHOLD);
+
+		if (rand > ratio) {
+			// dying
+			ContextUtils.getContext(this).remove(this);
+		}
+	}
+
+	public void tryToReproduceWith(Agent other) {
+
+		Context<Object> context = ContextUtils.getContext(this);
+
+		int mine = this.computeFitness();
+		int his = other.computeFitness();
+
+		if (mine + his > MAX_FIT) {
+
+			// // creating new agent
+			GridPoint pt = grid.getLocation(this);
+			NdPoint spacePt = space.getLocation(this);
 			
+			int energy = (this.getStartingEnergy() + other.getStartingEnergy()) / 2;
+			Agent agent = new Agent(space, grid, energy);
+			context.add(agent);
+			space.moveTo(agent, spacePt.getX(), spacePt.getY());
+			grid.moveTo(agent, pt.getX(), pt.getY());
+
+			this.decreaseEnergy(energy/2);
+			other.decreaseEnergy(energy/2);
+		}
+	}
+
+	public void exchangeEnergiesWith(Agent other) {
+		Context<Object> context = ContextUtils.getContext(other);
+
+		Network<Object> net = (Network<Object>) context
+				.getProjection("greetings network");
+
+		// Agent other = (Agent) obj;
+		int mine = this.computeFitness();
+		int his = other.computeFitness();
+		int diff = MAX_FIT / 5;
+		if (mine > his) {
+			this.increaseEnergy(diff);
+			other.decreaseEnergy(diff);
+
+			net.addEdge(this, other);
+		} else if (mine < his) {
+			this.decreaseEnergy(diff);
+			other.increaseEnergy(diff);
+
+			net.addEdge(other, this);
 		} else {
-			// stopped moving
-			energy = 0;// startingEnergy;
-			
-			//// dying
-			//Context<Object> context = ContextUtils.getContext(this);
-			//context.remove(this);
+			net.addEdge(this, other);
+			net.addEdge(other, this);
 		}
 	}
 
@@ -76,11 +146,11 @@ public class Agent {
 			space.moveByVector(this, 2, angle, 0);
 			myPoint = space.getLocation(this);
 			grid.moveTo(this, (int) myPoint.getX(), (int) myPoint.getY());
-			energy--;
+//			energy -= 1;
 		}
 	}
 
-	public void greet() {
+	public void meetOtherAgents() {
 		GridPoint pt = grid.getLocation(this);
 		List<Object> others = new ArrayList<Object>();
 		for (Object obj : grid.getObjectsAt(pt.getX(), pt.getY())) {
@@ -91,55 +161,35 @@ public class Agent {
 		if (others.size() > 0) {
 			int index = RandomHelper.nextIntFromTo(0, others.size() - 1);
 			Object obj = others.get(index);
-			
-//			NdPoint spacePt = space.getLocation(obj);			
-//			dying
-			Context<Object> context = ContextUtils.getContext(obj);
-//			context.remove(obj);
-//			
-//			creating new agent
-//			int energy = 10;
-//			Agent agent = new Agent(space, grid, energy);
-//			context.add(agent);
-//			space.moveTo(agent, spacePt.getX(), spacePt.getY());
-//			grid.moveTo(agent, pt.getX(), pt.getY());
 
-			Network<Object> net = (Network<Object>) context.getProjection("greetings network");
-			
 			Agent other = (Agent) obj;
-			int mine = this.rollTheDice();
-			int his = other.rollTheDice();
-			if (mine > his){
-				this.increaseEnergy(5);
-				other.decreaseEnergy(5);
-								
-				net.addEdge(this, obj);
-			} else if(mine < his) {
-				this.decreaseEnergy(5);
-				other.increaseEnergy(5);
-				
-				net.addEdge(obj, this);
+			if (this.isAbleToReproduce() && other.isAbleToReproduce()) {
+				this.tryToReproduceWith(other);
 			} else {
-				net.addEdge(this, obj);
-				net.addEdge(obj, this);
+				this.exchangeEnergiesWith(other);
 			}
-									
+
 		}
 	}
-	
-	public int rollTheDice(){
-		return RandomHelper.nextIntFromTo(0, 20);
+
+	public int computeFitness() {
+		// or other behaviour
+		return this.rollTheDice();
 	}
 
-	public void increaseEnergy(int n){
+	public int rollTheDice() {
+		return RandomHelper.nextIntFromTo(0, MAX_FIT);
+	}
+
+	public void increaseEnergy(int n) {
 		this.energy += n;
 	}
-	
-	public void decreaseEnergy(int n){
+
+	public void decreaseEnergy(int n) {
 		this.energy -= n;
 	}
-	
-	public int getEnergy(){
+
+	public int getEnergy() {
 		return this.energy;
 	}
 }

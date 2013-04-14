@@ -48,7 +48,7 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 		
 		int agentCount = (Integer)params.getValue("agent_count"); //100;
 		for (int i = 0; i < agentCount; i++) {
-			int energy = RandomHelper.nextIntFromTo(20, 30);
+			int energy = RandomHelper.nextIntFromTo(30, 50);
 			context.add(new Agent(space, grid, energy));
 		}
 
