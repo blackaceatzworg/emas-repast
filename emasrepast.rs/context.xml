@@ -1,6 +1,12 @@
 <context id="emasrepast" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://repast.org/scenario/context">
-	<projection type ="continuous space" id ="space" />
-	<projection type = "grid" id ="grid" />
-	<projection type = "network" id="greetings network" />
+	<context id="island0">
+		<projection type = "grid" id ="grid0" />
+		<projection type ="continuous space" id ="space0" />
+	</context>
+	<context id="island1">
+		<projection type ="continuous space" id ="space1" />
+		<projection type = "grid" id ="grid1" />
+	</context>		
+	<!-- <projection type = "network" id="greetings network" /> -->
 </context>

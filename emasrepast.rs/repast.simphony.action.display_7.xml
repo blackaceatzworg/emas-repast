@@ -1,5 +1,5 @@
 <repast.simphony.visualization.engine.DefaultDisplayDescriptor>
-  <name>Space Display</name>
+  <name>Display1</name>
   <type>TWO_D</type>
   <styles>
     <entry>
@@ -10,21 +10,11 @@
   <editedStyles>
     <entry>
       <string>emasrepast.Agent</string>
-      <string>emasrepast.Agent.style_2.xml</string>
+      <string>emasrepast.Agent.style_6.xml</string>
     </entry>
   </editedStyles>
-  <netStyles>
-    <entry>
-      <string>greetings network</string>
-      <string>repast.simphony.visualization.editedStyle.EditedEdgeStyle2D</string>
-    </entry>
-  </netStyles>
-  <editedNetStyles>
-    <entry>
-      <string>greetings network</string>
-      <string>greetingsnetwork.style_1.xml</string>
-    </entry>
-  </editedNetStyles>
+  <netStyles/>
+  <editedNetStyles/>
   <frequency>ON_MOVE</frequency>
   <schedParams>
     <start>1.0</start>
@@ -34,7 +24,7 @@
     <frequency>REPEAT</frequency>
   </schedParams>
   <layoutClassName>foo.bar.baz</layoutClassName>
-  <layoutProjection>space</layoutProjection>
+  <layoutProjection>space1</layoutProjection>
   <layoutInterval>0</layoutInterval>
   <layerOrder>
     <entry>
@@ -44,14 +34,9 @@
   </layerOrder>
   <projections>
     <repast.simphony.scenario.data.ProjectionData>
-      <id>space</id>
+      <id>space1</id>
       <attributes/>
       <type>CONTINUOUS_SPACE</type>
-    </repast.simphony.scenario.data.ProjectionData>
-    <repast.simphony.scenario.data.ProjectionData>
-      <id>greetings network</id>
-      <attributes/>
-      <type>NETWORK</type>
     </repast.simphony.scenario.data.ProjectionData>
   </projections>
   <valueLayers/>
@@ -60,14 +45,7 @@
   </visualizationProperties>
   <projectionDescriptors>
     <entry>
-      <string>greetings network</string>
-      <repast.simphony.visualization.engine.DefaultProjectionDescriptor>
-        <proj reference="../../../../projections/repast.simphony.scenario.data.ProjectionData[2]"/>
-        <props/>
-      </repast.simphony.visualization.engine.DefaultProjectionDescriptor>
-    </entry>
-    <entry>
-      <string>space</string>
+      <string>space1</string>
       <repast.simphony.visualization.continuous.ContinuousProjectionDescriptor>
         <proj reference="../../../../projections/repast.simphony.scenario.data.ProjectionData"/>
         <props>
