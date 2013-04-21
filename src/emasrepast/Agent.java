@@ -3,7 +3,8 @@ package emasrepast;
 import java.util.ArrayList;
 import java.util.List;
 
-import repast.simphony.context.Context;
+import communication.config.ConfigReader;
+
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.query.space.grid.GridCell;
 import repast.simphony.query.space.grid.GridCellNgh;
@@ -11,7 +12,6 @@ import repast.simphony.random.RandomHelper;
 import repast.simphony.space.SpatialMath;
 import repast.simphony.space.continuous.ContinuousSpace;
 import repast.simphony.space.continuous.NdPoint;
-import repast.simphony.space.graph.Network;
 import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridPoint;
 import repast.simphony.util.ContextUtils;
@@ -22,19 +22,20 @@ public class Agent {
 	private static final double REPRODUCING_THRESHOLD = 0.6;
 	private static final double DYING_THRESHOLD = 0.3;
 	private static final int MAX_FIT = 20;
+	private static int currentId = 0;
+	private String id;
 	private ContinuousSpace<Object> space;
 	private Grid<Object> grid;
 	private int energy, startingEnergy;
+	private Island island;
 
-	public int getStartingEnergy() {
-		return startingEnergy;
-	}
-
-	public Agent(ContinuousSpace<Object> space, Grid<Object> grid, int energy) {
-		this.space = space;
-		this.grid = grid;
+	public Agent(Island currentIsland, int energy) {
+		this.id = currentId++ + "#" + currentIsland.getId() + "@" + ConfigReader.getLocalHost();
+		this.island = currentIsland;
 		this.energy = energy;
 		this.startingEnergy = energy;
+		this.space = currentIsland.getSpace();
+		this.grid = currentIsland.getGrid();
 	}
 
 	@ScheduledMethod(start = 1, interval = 1)
@@ -68,6 +69,10 @@ public class Agent {
 
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	public boolean isAbleToReproduce() {
 		return energy > REPRODUCING_THRESHOLD * startingEnergy;
 	}
@@ -88,7 +93,7 @@ public class Agent {
 
 	public void tryToReproduceWith(Agent other) {
 
-		Context<Object> context = ContextUtils.getContext(this);
+//		Context<Object> context = ContextUtils.getContext(this);
 
 		int mine = this.computeFitness();
 		int his = other.computeFitness();
@@ -100,8 +105,9 @@ public class Agent {
 			NdPoint spacePt = space.getLocation(this);
 			
 			int energy = (this.getStartingEnergy() + other.getStartingEnergy()) / 2;
-			Agent agent = new Agent(space, grid, energy);
-			context.add(agent);
+			Agent agent = new Agent(island, energy);
+			island.add(agent);
+			//			context.add(agent);
 			space.moveTo(agent, spacePt.getX(), spacePt.getY());
 			grid.moveTo(agent, pt.getX(), pt.getY());
 
@@ -111,7 +117,7 @@ public class Agent {
 	}
 
 	public void exchangeEnergiesWith(Agent other) {
-		Context<Object> context = ContextUtils.getContext(other);
+//		Context<Object> context = ContextUtils.getContext(other);
 
 //		Network<Object> net = (Network<Object>) context
 //				.getProjection("greetings network");
@@ -191,5 +197,9 @@ public class Agent {
 
 	public int getEnergy() {
 		return this.energy;
+	}
+	
+	public int getStartingEnergy() {
+		return startingEnergy;
 	}
 }

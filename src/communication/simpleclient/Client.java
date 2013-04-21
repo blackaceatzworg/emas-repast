@@ -23,8 +23,13 @@ public class Client {
             for (String h : hosts){
                 Registry registry = LocateRegistry.getRegistry(rmiHost, rmiPort);
                 Node stub = (Node) registry.lookup("NodeServer"+h);
+                
+                int before = stub.getAgentCount();
                 String response = stub.addAgent(100);
+                int after = stub.getAgentCount();
+                System.out.println("agents on node: " + before);
                 System.out.println("response: " + response);
+                System.out.println("agents on node: " + after);
             }
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());

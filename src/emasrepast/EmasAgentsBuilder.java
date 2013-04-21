@@ -24,11 +24,11 @@ import communication.Server;
 
 public class EmasAgentsBuilder implements ContextBuilder<Object> {
 
-	private static final String MAIN_CONTEXT = "emasrepast"; //"maincontext"; 
+	private static final String MAIN_CONTEXT = "emasrepast"; 
 	
 	private static Context<Object> mainContext;
 	public static ArrayList<Island> islands;
-	public static final int islandsCount = 2;
+	public static final int ISLANDS_COUNT = 2;
 	
 	
 	@Override
@@ -39,7 +39,7 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 
 		islands = new ArrayList<Island>();
 		
-		for(int i = 0; i< islandsCount; i++){	
+		for(int i = 0; i< ISLANDS_COUNT; i++){	
 //			NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>(
 //					"greetings network", context, true);
 //			netBuilder.buildNetwork();
@@ -67,8 +67,7 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 		
 		Parameters params = RunEnvironment.getInstance().getParameters();
 		
-		// TODO integrate with servers
-//		new Server(context, space, grid);
+		new Server(mainContext, islands);
 		
 		int currentIslandIndex = 0;
 		Island currentIsland;
@@ -79,18 +78,16 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 			currentIsland = islands.get(currentIslandIndex);
 			int energy = RandomHelper.nextIntFromTo(30, 50);
 			
-			// TODO agent must know his current island, not current space and grid
-			currentIsland.add(new Agent(currentIsland.getSpace(), currentIsland.getGrid(), energy));
+			currentIsland.add(new Agent(currentIsland, energy));
 			
 			currentIslandIndex++;
-			if (currentIslandIndex % islandsCount == 0){
+			if (currentIslandIndex % ISLANDS_COUNT == 0){
 				currentIslandIndex = 0;
 			}
 		}
-		int ind = 0;
+		
 		for (Island subcontext : islands){
-			ind++;
-			System.out.println("island"+ind+ ": " + subcontext.getAgentCount() + " agents");
+			System.out.println(subcontext.getId() + ": " + subcontext.getAgentCount() + " agents");
 			for (Object obj : subcontext) {
 				NdPoint pt = subcontext.getSpace().getLocation(obj);
 				subcontext.getGrid().moveTo(obj, (int) pt.getX(), (int) pt.getY());

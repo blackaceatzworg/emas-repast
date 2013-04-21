@@ -6,13 +6,11 @@ import repast.simphony.space.grid.Grid;
 
 public class Island extends DefaultContext<Object>{
 	
-//	private final String id;
 	private ContinuousSpace<Object> space;
 	private Grid<Object> grid;
 	
 	public Island(String id) {
 		super(id);
-//		this.id = id;
 	}
 
 	public ContinuousSpace<Object> getSpace() {
@@ -30,10 +28,6 @@ public class Island extends DefaultContext<Object>{
 	public void setGrid(Grid<Object> grid) {
 		this.grid = grid;
 	}
-
-//	public String getId() {
-//		return id; 
-//	}
 	
 	public int getAgentCount(){
 		return this.size();
