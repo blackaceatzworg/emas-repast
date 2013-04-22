@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <config>
 	<rmiregistry>
-		<rmihost>192.168.0.11</rmihost>
+		<rmihost>192.168.1.102</rmihost>
 		<rmiport>1099</rmiport>
 	</rmiregistry>
-	<localhost>192.168.0.11</localhost>
+	<localhost>10.23.115.185</localhost>
 	<otherhosts>
-		<host>192.168.0.11</host>
+		<host>10.23.115.185</host>
 	</otherhosts>
 </config>

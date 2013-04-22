@@ -1,0 +1,30 @@
+ERROR [main] 2013-04-22 12:37:33,816 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+ERROR [main] 2013-04-22 12:37:33,823 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+ERROR [main] 2013-04-22 12:38:13,720 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+ERROR [main] 2013-04-22 12:38:13,729 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+ERROR [main] 2013-04-22 12:39:21,172 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+ERROR [main] 2013-04-22 12:39:21,179 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)

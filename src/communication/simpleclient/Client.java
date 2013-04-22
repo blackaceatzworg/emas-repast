@@ -6,6 +6,7 @@ import java.util.List;
 
 import communication.Node;
 import communication.config.ConfigReader;
+import communication.server.NodesContainer;
 
 
 public class Client {
@@ -22,11 +23,12 @@ public class Client {
         try {
             for (String h : hosts){
                 Registry registry = LocateRegistry.getRegistry(rmiHost, rmiPort);
-                Node stub = (Node) registry.lookup("NodeServer"+h);
+                NodesContainer stub = (NodesContainer) registry.lookup("RegistryContainer");
                 
-                int before = stub.getAgentCount();
-                String response = stub.addAgent(100);
-                int after = stub.getAgentCount();
+                Node node = stub.getNodeByName("NodeServer"+h);
+                int before = node.getAgentCount();
+                String response = node.addAgent(100);
+                int after = node.getAgentCount();
                 System.out.println("agents on node: " + before);
                 System.out.println("response: " + response);
                 System.out.println("agents on node: " + after);

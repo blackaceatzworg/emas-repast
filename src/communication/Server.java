@@ -10,25 +10,27 @@ import repast.simphony.random.RandomHelper;
 import repast.simphony.space.continuous.NdPoint;
 
 import communication.config.ConfigReader;
+import communication.server.NodesContainer;
 
 import emasrepast.Agent;
 import emasrepast.Island;
 
-public class Server implements Node {
+public class Server extends UnicastRemoteObject implements Node {
 
+	private static final long serialVersionUID = 1L;
 	private Context<Object> context;
 	private List<Island> islands;
 
 
-	public Server(Context<Object> mainContext, List<Island> islands) {
+	public Server(Context<Object> mainContext, List<Island> islands) throws RemoteException{
 		try {
 			this.context = mainContext;
 			this.islands = islands;
-			Node stub = (Node) UnicastRemoteObject.exportObject(this, 0);
 			String rmiHost = ConfigReader.getRmiHost();
 			Integer rmiPort = ConfigReader.getRmiPort();
 			Registry registry = LocateRegistry.getRegistry(rmiHost, rmiPort);
-			registry.bind("NodeServer"+ConfigReader.getLocalHost(), stub);
+            NodesContainer stub = (NodesContainer) registry.lookup("RegistryContainer");
+            stub.addNode(this);
 			System.err.println("Server ready");
 		} catch (Exception e){
 			System.err.println("Server exception: " + e.toString());
@@ -50,5 +52,10 @@ public class Server implements Node {
 	@Override
 	public int getAgentCount() throws RemoteException {
 		return context.size();
+	}
+
+	@Override
+	public String getName() throws RemoteException {
+		return "NodeServer"+ConfigReader.getLocalHost();
 	}
 }
