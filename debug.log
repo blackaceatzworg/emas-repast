@@ -28,3 +28,115 @@ java.lang.NullPointerException
 	at saf.core.runtime.Boot.run(Boot.java:105)
 	at saf.core.runtime.Boot.main(Boot.java:251)
 	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+ERROR [main] 2013-05-06 09:53:52,418 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at communication.ManualRun.start(ManualRun.java:17)
+	at communication.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 09:53:52,424 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at communication.ManualRun.start(ManualRun.java:17)
+	at communication.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 10:02:18,329 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at communication.ManualRun.start(ManualRun.java:17)
+	at communication.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 10:02:18,334 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at communication.ManualRun.start(ManualRun.java:17)
+	at communication.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 10:12:34,982 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at communication.ManualRun.start(ManualRun.java:17)
+	at communication.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 10:12:34,994 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at communication.ManualRun.start(ManualRun.java:17)
+	at communication.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 10:20:13,338 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 10:20:13,350 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 11:26:53,874 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 11:26:53,918 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 11:34:32,424 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 11:34:32,437 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 11:53:18,882 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 11:53:18,961 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 11:55:22,733 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-06 11:56:10,631 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:17)
+	at runner.ManualRun.main(ManualRun.java:10)
