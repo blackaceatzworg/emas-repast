@@ -13,12 +13,14 @@ import repast.simphony.engine.environment.RunEnvironmentBuilder;
 import repast.simphony.engine.environment.RunState;
 import repast.simphony.engine.schedule.ISchedule;
 import repast.simphony.engine.schedule.Schedule;
+import repast.simphony.parameter.Parameters;
 import repast.simphony.parameter.SweeperProducer;
 import simphony.util.messages.MessageCenter;
 
 public class ManualRunner extends AbstractRunner {
 
-	private static MessageCenter msgCenter = MessageCenter.getMessageCenter(ManualRunner.class);
+	private static MessageCenter msgCenter = MessageCenter
+			.getMessageCenter(ManualRunner.class);
 
 	private RunEnvironmentBuilder runEnvironmentBuilder;
 	protected Controller controller;
@@ -33,7 +35,7 @@ public class ManualRunner extends AbstractRunner {
 		controller.setScheduleRunner(this);
 	}
 
-	public void load(File scenarioDir) throws Exception{
+	public void load(File scenarioDir, Parameters params) throws Exception {
 		if (scenarioDir.exists()) {
 			BatchScenarioLoader loader = new BatchScenarioLoader(scenarioDir);
 			ControllerRegistry registry = loader.load(runEnvironmentBuilder);
@@ -45,53 +47,56 @@ public class ManualRunner extends AbstractRunner {
 		}
 
 		controller.batchInitialize();
-		controller.runParameterSetters(null);
+		controller.runParameterSetters(params);
 	}
 
-	public void runInitialize(){
-    controller.runInitialize(null);
-		schedule = RunState.getInstance().getScheduleRegistry().getModelSchedule();
+	public void runInitialize(Parameters params) {
+		controller.runInitialize(params);
+		schedule = RunState.getInstance().getScheduleRegistry()
+				.getModelSchedule();
 	}
 
-	public void cleanUpRun(){
+	public void cleanUpRun() {
 		controller.runCleanup();
 	}
-	public void cleanUpBatch(){
+
+	public void cleanUpBatch() {
 		controller.batchCleanup();
 	}
 
 	// returns the tick count of the next scheduled item
-	public double getNextScheduledTime(){
-		return ((Schedule)RunEnvironment.getInstance().getCurrentSchedule()).peekNextAction().getNextTime();
+	public double getNextScheduledTime() {
+		return ((Schedule) RunEnvironment.getInstance().getCurrentSchedule())
+				.peekNextAction().getNextTime();
 	}
 
 	// returns the number of model actions on the schedule
-	public int getModelActionCount(){
+	public int getModelActionCount() {
 		return schedule.getModelActionCount();
 	}
 
 	// returns the number of non-model actions on the schedule
-	public int getActionCount(){
+	public int getActionCount() {
 		return schedule.getActionCount();
 	}
 
 	// Step the schedule
-	public void step(){
-    schedule.execute();
+	public void step() {
+		schedule.execute();
 	}
 
 	// stop the schedule
-	public void stop(){
-		if ( schedule != null )
+	public void stop() {
+		if (schedule != null)
 			schedule.executeEndActions();
 	}
 
-	public void setFinishing(boolean fin){
+	public void setFinishing(boolean fin) {
 		schedule.setFinishing(fin);
 	}
 
 	public void execute(RunState toExecuteOn) {
-		// required AbstractRunner stub.  We will control the
-		//  schedule directly.
+		// required AbstractRunner stub. We will control the
+		// schedule directly.
 	}
 }
