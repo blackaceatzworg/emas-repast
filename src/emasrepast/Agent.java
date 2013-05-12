@@ -28,6 +28,7 @@ public class Agent {
 	private Grid<Object> grid;
 	private int energy, startingEnergy;
 	private Island island;
+	private int lastStep = 0; //debug only
 
 	public Agent(Island currentIsland, int energy) {
 		this.id = currentId++ + "#" + currentIsland.getId() + "@" + ConfigReader.getLocalHost();
@@ -40,6 +41,8 @@ public class Agent {
 
 	@ScheduledMethod(start = 1, interval = 1)
 	public void step() {
+		lastStep++;
+		System.out.println(lastStep + " small step(s) for an agent: " + id);
 		// get the grid location of this agent
 		GridPoint pt = grid.getLocation(this);
 
