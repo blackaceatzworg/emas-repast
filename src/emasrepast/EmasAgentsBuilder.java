@@ -29,13 +29,16 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 	
 	private static Context<Object> mainContext;
 	public static ArrayList<Island> islands;
-	public static final int ISLANDS_COUNT = 2;
+	public static int ISLANDS_COUNT;
 	
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Context build(Context<Object> context) {
 
+		Parameters params = RunEnvironment.getInstance().getParameters();
+		ISLANDS_COUNT = (Integer) params.getValue("islandsPerNode");
+		
 		mainContext = context;
 		mainContext.setId(MAIN_CONTEXT);
 
@@ -67,7 +70,7 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 			islands.add(subcontext);
 		}
 		
-		Parameters params = RunEnvironment.getInstance().getParameters();
+		
 		
 		try {
 			ServerHolder.setServer(new Server(mainContext, islands));
@@ -78,7 +81,7 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 		int currentIslandIndex = 0;
 		Island currentIsland;
 		
-		int agentCount = (Integer)params.getValue("agent_count"); //100;
+		int agentCount = (Integer)params.getValue("agentCount"); //100;
 		for (int i = 0; i < agentCount; i++) {
 			
 			currentIsland = islands.get(currentIslandIndex);

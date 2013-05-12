@@ -1,14 +1,13 @@
 package emasrepast;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
-import communication.Node;
-import communication.config.ConfigReader;
-import communication.server.NodesContainer;
-
+import repast.simphony.context.Context;
+import repast.simphony.engine.environment.RunState;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.query.space.grid.GridCell;
 import repast.simphony.query.space.grid.GridCellNgh;
@@ -20,6 +19,10 @@ import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridPoint;
 import repast.simphony.util.ContextUtils;
 import repast.simphony.util.SimUtilities;
+
+import communication.Node;
+import communication.config.ConfigReader;
+import communication.server.NodesContainer;
 
 public class Agent {
 
@@ -56,7 +59,7 @@ public class Agent {
 	public void step() {
 		if (!readyToWork())
 			return;
-		System.out.println("STEP. Island: "+island);
+//		System.out.println("STEP. Island: "+island);
 		// get the grid location of this agent
 		GridPoint pt = grid.getLocation(this);
 
@@ -108,6 +111,7 @@ public class Agent {
 
 		if (rand > ratio) {
 			// dying
+			System.out.println("DYING");
 			ContextUtils.getContext(this).remove(this);
 		}
 	}
@@ -120,7 +124,7 @@ public class Agent {
 		int his = other.computeFitness();
 
 		if (mine + his > MAX_FIT) {
-
+			System.out.println("REPRODUCING");
 			// // creating new agent
 			GridPoint pt = grid.getLocation(this);
 			NdPoint spacePt = space.getLocation(this);
@@ -199,7 +203,7 @@ public class Agent {
 	}
 	
 	private void travel() {
-		System.out.println("TRAVELLING");
+//		System.out.println("TRAVELLING");
 		String rmiHost = ConfigReader.getRmiHost();
         Integer rmiPort = ConfigReader.getRmiPort();
         List <String> hosts = ConfigReader.getHosts();
@@ -211,14 +215,23 @@ public class Agent {
 			
 			Node node = stub.getNodeByName("NodeServer"+targetHost);
 			node.addAgent(energy, startingEnergy);
+//			Context master = RunState.getInstance().getMasterContext();
+			System.out.println("TRAVELLING");
+			for (Island isl : EmasAgentsBuilder.islands){
+				System.out.print(isl.getId() + ": " + isl.getAgentCount()+"\t| ");
+			}
+			System.out.println();
+//			System.out.println("master: "+ master.size());
 			ContextUtils.getContext(this).remove(this);
-        } catch (Exception e) {
+        } catch (RemoteException e) {
             System.err.println("Target host: " + targetHost + " not ready.");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 	}
 
 	private void tryToReproduce(List <Object> others){
-		System.out.println("REPRODUCING");
+//		System.out.println("REPRODUCING");
 		if (others.size() > 0) {
 			int index = RandomHelper.nextIntFromTo(0, others.size() - 1);
 			Object obj = others.get(index);

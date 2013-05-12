@@ -11,19 +11,25 @@ import repast.simphony.parameter.ParametersCreator;
 
 public class ManualRunnerMain {
 
+	private static Parameters loadParameters() {
+		ParametersCreator creator = new ParametersCreator();
+		creator.addParameter("agentCount", Integer.class, 100, false);
+		creator.addParameter("randomSeed", Integer.class, 1489240545, false);
+		creator.addParameter("islandsPerNode", Integer.class, 10, false);
+		creator.addConvertor("agentCount", new repast.simphony.parameter.StringConverterFactory.IntConverter());
+		creator.addConvertor("islandsPerNode", new repast.simphony.parameter.StringConverterFactory.IntConverter());
+		creator.addConvertor("randomSeed", new repast.simphony.parameter.StringConverterFactory.IntConverter());
+		Parameters params = creator.createParameters();
+		return params;
+	}
+	
 	public static void main(String[] args){
 
 		args[0] = (System.getProperty("user.dir")) + "\\emasrepast.rs\\";
 		File file = new File(args[0]); // the scenario dir
 
 		ManualRunner runner = new ManualRunner();
-		ParametersCreator creator = new ParametersCreator();
-		//Parameters params2 = creator.createParameters();
-		creator.addParameter("agent_count", Integer.class, 20, false);
-		creator.addParameter("randomSeed", Integer.class, 1489240545, false);
-		creator.addConvertor("agent_count", new repast.simphony.parameter.StringConverterFactory.IntConverter());
-		creator.addConvertor("randomSeed", new repast.simphony.parameter.StringConverterFactory.IntConverter());
-		Parameters params = creator.createParameters();
+		Parameters params = loadParameters();
 		
 		try {
 			runner.load(file, params);     // load the repast scenario

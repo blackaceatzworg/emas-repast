@@ -17,5 +17,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="runner.ManualRunnerMain"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="&quot;${workspace_loc:emasrepast}/emasrepast.rs&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="emasrepast"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss10M -Xmx400M -Djava.rmi.server.codebase=http://student.agh.edu.pl/~anielski/communication.jar&#13;&#10;-Djava.security.policy=config/security.policy"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss1M -Xmx400M -Djava.rmi.server.codebase=http://student.agh.edu.pl/~anielski/communication.jar&#13;&#10;-Djava.security.policy=config/security.policy"/>
 </launchConfiguration>
