@@ -31,6 +31,11 @@ public class Agent {
 	private Grid<Object> grid;
 	private int energy, startingEnergy;
 	private Island island;
+	private boolean _readyToWork;
+
+	public void setReadyToWork(boolean readyToWork) {
+		this._readyToWork = readyToWork;
+	}
 
 	public Agent(Island currentIsland, int energy) {
 		this.island = currentIsland;
@@ -38,15 +43,19 @@ public class Agent {
 		this.startingEnergy = energy;
 		this.space = currentIsland.getSpace();
 		this.grid = currentIsland.getGrid();
+		_readyToWork = true; //when agent has created at startup, then it is already ready to work
 	}
 	
-	public Agent(Island currentIsland, int energy, int starginEnergy){
+	public Agent(Island currentIsland, int energy, int startingEnergy){
 		this(currentIsland, energy);
-		this.startingEnergy = starginEnergy;
+		this.startingEnergy = startingEnergy;
+		_readyToWork = false; //agent has migrated, it is not ready to work yet
 	}
 
 	@ScheduledMethod(start = 1, interval = 1)
 	public void step() {
+		if (!readyToWork())
+			return;
 		System.out.println("STEP. Island: "+island);
 		// get the grid location of this agent
 		GridPoint pt = grid.getLocation(this);
@@ -75,6 +84,10 @@ public class Agent {
 		tryToDie();
 //		}
 
+	}
+
+	private boolean readyToWork() {
+		return _readyToWork;
 	}
 
 	private boolean isAbleToReproduce() {

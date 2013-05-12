@@ -43,10 +43,11 @@ public class Server extends UnicastRemoteObject implements Node {
 		int islandCount = islands.size();
 		int targetIslandIndex = RandomHelper.nextIntFromTo(0, islandCount-1);
 		Island island = islands.get(targetIslandIndex); 
-		Object toAdd = new Agent(island, energy, startingEnergy);
+		Agent toAdd = new Agent(island, energy, startingEnergy);
 		island.add(toAdd);
 		NdPoint pt = island.getSpace().getLocation(toAdd);
 		island.getGrid().moveTo(toAdd, (int) pt.getX(), (int) pt.getY());
+		toAdd.setReadyToWork(true);
 		return "Agent added to island " + targetIslandIndex + "!";
 	}
 
