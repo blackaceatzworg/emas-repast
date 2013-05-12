@@ -5,19 +5,18 @@ import java.io.File;
 import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.parameter.Parameters;
 import repast.simphony.parameter.ParametersCreator;
-import repast.simphony.visualization.visualization2D.RepastCanvas2D.repastPiccoloMouseMotionListener;
 
 public class ManualRunnerMain {
 
 	public static void main(String[] args){
 
-		args[0] = "D:\\dev\\miss\\repastws\\emasrepast\\emasrepast.rs\\";
+		args[0] = (System.getProperty("user.dir")) + "\\emasrepast.rs\\";
 //		args[1] = "C:\\dev\\RepastSimphony-2.0\\eclipse\\plugins\\repast.simphony.runtime_2.0.1\\";		
 		File file = new File(args[0]); // the scenario dir
 
 		ManualRunner runner = new ManualRunner();
 		ParametersCreator creator = new ParametersCreator();
-		Parameters params2 = creator.createParameters();
+		//Parameters params2 = creator.createParameters();
 		creator.addParameter("agent_count", Integer.class, 20, false);
 		creator.addParameter("randomSeed", Integer.class, 1489240545, false);
 		creator.addConvertor("agent_count", new repast.simphony.parameter.StringConverterFactory.IntConverter());

@@ -1,12 +1,10 @@
 package emasrepast;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import repast.simphony.context.Context;
 import repast.simphony.context.space.continuous.ContinuousSpaceFactory;
 import repast.simphony.context.space.continuous.ContinuousSpaceFactoryFinder;
-//import repast.simphony.context.space.graph.NetworkBuilder;
 import repast.simphony.context.space.grid.GridFactory;
 import repast.simphony.context.space.grid.GridFactoryFinder;
 import repast.simphony.dataLoader.ContextBuilder;
@@ -21,8 +19,6 @@ import repast.simphony.space.grid.GridBuilderParameters;
 import repast.simphony.space.grid.SimpleGridAdder;
 import repast.simphony.space.grid.WrapAroundBorders;
 
-import communication.Server;
-
 public class EmasAgentsBuilder implements ContextBuilder<Object> {
 
 	private static final String MAIN_CONTEXT = "emasrepast"; 
@@ -32,6 +28,7 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 	public static final int ISLANDS_COUNT = 2;
 	
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Context build(Context<Object> context) {
 
