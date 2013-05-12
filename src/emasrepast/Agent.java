@@ -215,13 +215,11 @@ public class Agent {
 			
 			Node node = stub.getNodeByName("NodeServer"+targetHost);
 			node.addAgent(energy, startingEnergy);
-//			Context master = RunState.getInstance().getMasterContext();
-			System.out.println("TRAVELLING");
-			for (Island isl : EmasAgentsBuilder.islands){
-				System.out.print(isl.getId() + ": " + isl.getAgentCount()+"\t| ");
-			}
-			System.out.println();
-//			System.out.println("master: "+ master.size());
+//			System.out.println("TRAVELLING");
+//			for (Island isl : EmasAgentsBuilder.islands){
+//				System.out.print(isl.getId() + ": " + isl.getAgentCount()+"\t| ");
+//			}
+//			System.out.println();
 			ContextUtils.getContext(this).remove(this);
         } catch (RemoteException e) {
             System.err.println("Target host: " + targetHost + " not ready.");
@@ -231,7 +229,6 @@ public class Agent {
 	}
 
 	private void tryToReproduce(List <Object> others){
-//		System.out.println("REPRODUCING");
 		if (others.size() > 0) {
 			int index = RandomHelper.nextIntFromTo(0, others.size() - 1);
 			Object obj = others.get(index);

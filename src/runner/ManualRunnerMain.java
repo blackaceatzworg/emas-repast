@@ -11,11 +11,12 @@ import repast.simphony.parameter.ParametersCreator;
 
 public class ManualRunnerMain {
 
-	private static Parameters loadParameters() {
+	private static Parameters loadParameters(int agentCount, int islandsPerNode){
 		ParametersCreator creator = new ParametersCreator();
-		creator.addParameter("agentCount", Integer.class, 100, false);
+		creator.addParameter("agentCount", Integer.class, agentCount, false);
+		creator.addParameter("islandsPerNode", Integer.class, islandsPerNode, false);
+		
 		creator.addParameter("randomSeed", Integer.class, 1489240545, false);
-		creator.addParameter("islandsPerNode", Integer.class, 10, false);
 		creator.addConvertor("agentCount", new repast.simphony.parameter.StringConverterFactory.IntConverter());
 		creator.addConvertor("islandsPerNode", new repast.simphony.parameter.StringConverterFactory.IntConverter());
 		creator.addConvertor("randomSeed", new repast.simphony.parameter.StringConverterFactory.IntConverter());
@@ -23,21 +24,31 @@ public class ManualRunnerMain {
 		return params;
 	}
 	
+	private static Parameters loadParameters() {
+		return loadParameters(30, 3);
+	}
+	
 	public static void main(String[] args){
 
 		args[0] = (System.getProperty("user.dir")) + "\\emasrepast.rs\\";
 		File file = new File(args[0]); // the scenario dir
 
-		ManualRunner runner = new ManualRunner();
-		Parameters params = loadParameters();
+		long startTime = System.nanoTime();
+				
+		int agentCount = 100;
+		int islandsPerNode = 2;
 		
+		
+		ManualRunner runner = new ManualRunner();
+		Parameters params = loadParameters(agentCount, islandsPerNode);
+				
 		try {
 			runner.load(file, params);     // load the repast scenario
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		double endTime = 1000.0;  // some arbitrary end time
+		double endTime = 100.0;  // some arbitrary end time
 
 		runner.runInitialize(params);  // initialize the run
 
@@ -56,5 +67,10 @@ public class ManualRunnerMain {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("Final execution time of " + agentCount + " agents on " + islandsPerNode + " islands:");
+		System.out.println((System.nanoTime()-startTime)/1000000000.0+"s");
+		
+		
 	}
 }
