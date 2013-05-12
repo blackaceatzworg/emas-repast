@@ -1,9 +1,13 @@
 package emasrepast;
 
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
+import communication.Node;
 import communication.config.ConfigReader;
+import communication.server.NodesContainer;
 
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.query.space.grid.GridCell;
@@ -20,29 +24,30 @@ import repast.simphony.util.SimUtilities;
 public class Agent {
 
 	private static final double REPRODUCING_THRESHOLD = 0.6;
+	private static final double TRAVELLING_THRESHOLD = 0.6;
 	private static final double DYING_THRESHOLD = 0.3;
 	private static final int MAX_FIT = 20;
-	private static int currentId = 0;
-	private String id;
 	private ContinuousSpace<Object> space;
 	private Grid<Object> grid;
 	private int energy, startingEnergy;
 	private Island island;
-	private int lastStep = 0; //debug only
 
 	public Agent(Island currentIsland, int energy) {
-		this.id = currentId++ + "#" + currentIsland.getId() + "@" + ConfigReader.getLocalHost();
 		this.island = currentIsland;
 		this.energy = energy;
 		this.startingEnergy = energy;
 		this.space = currentIsland.getSpace();
 		this.grid = currentIsland.getGrid();
 	}
+	
+	public Agent(Island currentIsland, int energy, int starginEnergy){
+		this(currentIsland, energy);
+		this.startingEnergy = starginEnergy;
+	}
 
 	@ScheduledMethod(start = 1, interval = 1)
 	public void step() {
-		lastStep++;
-		System.out.println(lastStep + " small step(s) for an agent: " + id);
+		System.out.println("STEP. Island: "+island);
 		// get the grid location of this agent
 		GridPoint pt = grid.getLocation(this);
 
@@ -64,7 +69,7 @@ public class Agent {
 		// }
 
 		moveTowards(randomPoint);
-		meetOtherAgents();
+		meetOrTravel();
 
 //		if (this.isLikelyToDie()) {
 		tryToDie();
@@ -72,19 +77,19 @@ public class Agent {
 
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public boolean isAbleToReproduce() {
+	private boolean isAbleToReproduce() {
 		return energy > REPRODUCING_THRESHOLD * startingEnergy;
 	}
 
-	public boolean isLikelyToDie() {
+	/*private boolean isLikelyToDie() {
 		return energy < DYING_THRESHOLD * startingEnergy;
-	}
+	}*/
 
-	public void tryToDie() {
+	private boolean isAbleToTravel() {
+		return energy > TRAVELLING_THRESHOLD * startingEnergy;
+	}
+	
+	private void tryToDie() {
 		double ratio = energy / (startingEnergy + 0.0);
 		double rand = RandomHelper.nextDoubleFromTo(0, DYING_THRESHOLD);
 
@@ -94,7 +99,7 @@ public class Agent {
 		}
 	}
 
-	public void tryToReproduceWith(Agent other) {
+	private void tryToReproduceWith(Agent other) {
 
 //		Context<Object> context = ContextUtils.getContext(this);
 
@@ -119,7 +124,7 @@ public class Agent {
 		}
 	}
 
-	public void exchangeEnergiesWith(Agent other) {
+	private void exchangeEnergiesWith(Agent other) {
 //		Context<Object> context = ContextUtils.getContext(other);
 
 //		Network<Object> net = (Network<Object>) context
@@ -145,7 +150,7 @@ public class Agent {
 		}
 	}
 
-	public void moveTowards(GridPoint pt) {
+	private void moveTowards(GridPoint pt) {
 		// only move if we are not already in this grid location
 		if (!pt.equals(grid.getLocation(this))) {
 			NdPoint myPoint = space.getLocation(this);
@@ -155,11 +160,10 @@ public class Agent {
 			space.moveByVector(this, 2, angle, 0);
 			myPoint = space.getLocation(this);
 			grid.moveTo(this, (int) myPoint.getX(), (int) myPoint.getY());
-//			energy -= 1;
 		}
 	}
 
-	public void meetOtherAgents() {
+	private void meetOrTravel() {
 		GridPoint pt = grid.getLocation(this);
 		List<Object> others = new ArrayList<Object>();
 		for (Object obj : grid.getObjectsAt(pt.getX(), pt.getY())) {
@@ -167,6 +171,41 @@ public class Agent {
 				others.add(obj);
 			}
 		}
+		if (this.isAbleToTravel() && !this.isAbleToReproduce()){
+			travel();
+		}
+		else if (!this.isAbleToTravel() && this.isAbleToReproduce()){
+			tryToReproduce(others);
+		}
+		else if (this.isAbleToTravel() && this.isAbleToReproduce()){
+			if (Math.random()<0.5)
+				travel();
+			else
+				tryToReproduce(others);
+		}		
+	}
+	
+	private void travel() {
+		System.out.println("TRAVELLING");
+		String rmiHost = ConfigReader.getRmiHost();
+        Integer rmiPort = ConfigReader.getRmiPort();
+        List <String> hosts = ConfigReader.getHosts();
+        String targetHost = hosts.get(RandomHelper.nextIntFromTo(0, hosts.size()-1));
+        
+        try {
+			Registry registry = LocateRegistry.getRegistry(rmiHost, rmiPort);
+			NodesContainer stub = (NodesContainer) registry.lookup("RegistryContainer");
+			
+			Node node = stub.getNodeByName("NodeServer"+targetHost);
+			node.addAgent(energy, startingEnergy);
+			ContextUtils.getContext(this).remove(this);
+        } catch (Exception e) {
+            System.err.println("Target host: " + targetHost + " not ready.");
+        }
+	}
+
+	private void tryToReproduce(List <Object> others){
+		System.out.println("REPRODUCING");
 		if (others.size() > 0) {
 			int index = RandomHelper.nextIntFromTo(0, others.size() - 1);
 			Object obj = others.get(index);
@@ -177,24 +216,25 @@ public class Agent {
 			} else {
 				this.exchangeEnergiesWith(other);
 			}
-
 		}
 	}
 
-	public int computeFitness() {
+	
+
+	private int computeFitness() {
 		// or other behaviour
 		return this.rollTheDice();
 	}
 
-	public int rollTheDice() {
+	private int rollTheDice() {
 		return RandomHelper.nextIntFromTo(0, MAX_FIT);
 	}
 
-	public void increaseEnergy(int n) {
+	private void increaseEnergy(int n) {
 		this.energy += n;
 	}
 
-	public void decreaseEnergy(int n) {
+	private void decreaseEnergy(int n) {
 		this.energy -= n;
 	}
 

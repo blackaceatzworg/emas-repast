@@ -27,7 +27,7 @@ public class Client {
                 
                 Node node = stub.getNodeByName("NodeServer"+h);
                 int before = node.getAgentCount();
-                String response = node.addAgent(100);
+                String response = node.addAgent(100, 100);
                 int after = node.getAgentCount();
                 System.out.println("agents on node: " + before);
                 System.out.println("response: " + response);

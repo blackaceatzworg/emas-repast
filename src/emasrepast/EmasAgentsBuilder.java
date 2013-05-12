@@ -1,6 +1,9 @@
 package emasrepast;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+
+import communication.Server;
 
 import repast.simphony.context.Context;
 import repast.simphony.context.space.continuous.ContinuousSpaceFactory;
@@ -65,11 +68,11 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 		
 		Parameters params = RunEnvironment.getInstance().getParameters();
 		
-//		try {
-//			new Server(mainContext, islands);
-//		} catch (RemoteException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			new Server(mainContext, islands);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		
 		int currentIslandIndex = 0;
 		Island currentIsland;

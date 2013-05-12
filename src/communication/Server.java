@@ -38,15 +38,15 @@ public class Server extends UnicastRemoteObject implements Node {
 		}				
 	}
 
-	public String addAgent(Integer energy) throws RemoteException{
+	public String addAgent(Integer energy, Integer startingEnergy) throws RemoteException{
 		int islandCount = islands.size();
 		int targetIslandIndex = RandomHelper.nextIntFromTo(0, islandCount-1);
 		Island island = islands.get(targetIslandIndex); 
-		Object toAdd = new Agent(island, energy);
+		Object toAdd = new Agent(island, energy, startingEnergy);
 		island.add(toAdd);
 		NdPoint pt = island.getSpace().getLocation(toAdd);
 		island.getGrid().moveTo(toAdd, (int) pt.getX(), (int) pt.getY());
-		return "Agent added to island " + targetIslandIndex + " !";
+		return "Agent added to island " + targetIslandIndex + "!";
 	}
 
 	@Override

@@ -140,3 +140,17 @@ java.lang.NullPointerException
 	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
 	at runner.ManualRun.start(ManualRun.java:17)
 	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-12 09:57:32,043 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.init(Boot.java:79)
+	at saf.core.runtime.Boot.main(Boot.java:250)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:18)
+	at runner.ManualRun.main(ManualRun.java:10)
+ERROR [main] 2013-05-12 09:57:32,055 saf.core.runtime.Boot - null
+java.lang.NullPointerException
+	at saf.core.runtime.Boot.run(Boot.java:105)
+	at saf.core.runtime.Boot.main(Boot.java:251)
+	at repast.simphony.runtime.RepastMain.main(RepastMain.java:43)
+	at runner.ManualRun.start(ManualRun.java:18)
+	at runner.ManualRun.main(ManualRun.java:10)
