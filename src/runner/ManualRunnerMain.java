@@ -31,7 +31,7 @@ public class ManualRunnerMain {
 			e.printStackTrace();
 		}
 
-		double endTime = 100.0;  // some arbitrary end time
+		double endTime = 1000.0;  // some arbitrary end time
 
 		runner.runInitialize(params);  // initialize the run
 
