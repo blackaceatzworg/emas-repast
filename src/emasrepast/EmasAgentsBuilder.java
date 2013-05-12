@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import communication.Server;
+import communication.ServerHolder;
 
 import repast.simphony.context.Context;
 import repast.simphony.context.space.continuous.ContinuousSpaceFactory;
@@ -69,7 +70,7 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 		Parameters params = RunEnvironment.getInstance().getParameters();
 		
 		try {
-			new Server(mainContext, islands);
+			ServerHolder.setServer(new Server(mainContext, islands));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

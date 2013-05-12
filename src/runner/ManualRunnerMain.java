@@ -1,6 +1,9 @@
 package runner;
 
 import java.io.File;
+import java.rmi.RemoteException;
+
+import communication.ServerHolder;
 
 import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.parameter.Parameters;
@@ -28,7 +31,7 @@ public class ManualRunnerMain {
 			e.printStackTrace();
 		}
 
-		double endTime = 10.0;  // some arbitrary end time
+		double endTime = 100.0;  // some arbitrary end time
 
 		runner.runInitialize(params);  // initialize the run
 
@@ -37,16 +40,15 @@ public class ManualRunnerMain {
 		while (runner.getModelActionCount() != 1) {
 			// System.out.println(runner.getActionCount() + " " + runner.getModelActionCount());
 			runner.step();  // execute all scheduled actions at next tick
-			System.out.println("after step");
 		}
-		System.out.println("a");
 		runner.setFinishing(true);
-		System.out.println("b");
 		runner.stop();          // execute any actions scheduled at run end
-		System.out.println("c");
 		runner.cleanUpRun();
-		System.out.println("d");
 		runner.cleanUpBatch();    // run after all runs complete
-		System.out.println("e");
+		try {
+			ServerHolder.getServer().cleanUp();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 }

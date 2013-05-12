@@ -9,4 +9,5 @@ import communication.Node;
 public interface NodesContainer extends Remote{
 	void addNode (Node node) throws RemoteException;
 	Node getNodeByName (String name) throws RemoteException;
+	void unregisterNode (Node node) throws RemoteException;
 }

@@ -54,4 +54,9 @@ public class RegistryContainer extends UnicastRemoteObject implements NodesConta
 		}
 		return null;
 	}
+
+	@Override
+	public void unregisterNode(Node node) throws RemoteException {
+		nodes.remove(node);
+	}
 }

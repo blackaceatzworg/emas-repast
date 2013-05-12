@@ -20,6 +20,7 @@ public class Server extends UnicastRemoteObject implements Node {
 	private static final long serialVersionUID = 1L;
 	private Context<Object> context;
 	private List<Island> islands;
+	private NodesContainer stub;
 
 
 	public Server(Context<Object> mainContext, List<Island> islands) throws RemoteException{
@@ -29,7 +30,7 @@ public class Server extends UnicastRemoteObject implements Node {
 			String rmiHost = ConfigReader.getRmiHost();
 			Integer rmiPort = ConfigReader.getRmiPort();
 			Registry registry = LocateRegistry.getRegistry(rmiHost, rmiPort);
-            NodesContainer stub = (NodesContainer) registry.lookup("RegistryContainer");
+            stub = (NodesContainer) registry.lookup("RegistryContainer");
             stub.addNode(this);
 			System.err.println("Server ready");
 		} catch (Exception e){
@@ -57,5 +58,11 @@ public class Server extends UnicastRemoteObject implements Node {
 	@Override
 	public String getName() throws RemoteException {
 		return "NodeServer"+ConfigReader.getLocalHost();
+	}
+	
+	@Override
+	public void cleanUp() throws RemoteException{
+		stub.unregisterNode(this);
+		unexportObject(this, true);
 	}
 }
