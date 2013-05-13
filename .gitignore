@@ -6,7 +6,7 @@
 *.ear
 ModelOutput*.txt
 velocity.log
-
+debug.log
 # Settings Files #
 Repast.settings
 hosts.xml
