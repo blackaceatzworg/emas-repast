@@ -2,14 +2,14 @@ package runner;
 
 import java.io.File;
 import java.rmi.RemoteException;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import communication.ServerHolder;
-import emasrepast.EmasAgentsBuilder;
 
 import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.parameter.Parameters;
 import repast.simphony.parameter.ParametersCreator;
+
+import communication.ServerHolder;
+
+import emasrepast.EmasAgentsBuilder;
 
 public class ManualRunnerMain {
 
@@ -38,7 +38,8 @@ public class ManualRunnerMain {
 		long startTime = System.nanoTime();
 				
 		int agentCount = Integer.parseInt(args[1]);
-		int islandsPerNode = Integer.parseInt(args[2])	;
+		int islandsPerNode = Integer.parseInt(args[2]);
+		double endTime = (double) Integer.parseInt(args[3]); // some arbitrary end time
 		
 		
 		ManualRunner runner = new ManualRunner();
@@ -49,8 +50,6 @@ public class ManualRunnerMain {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		double endTime = 100.0;  // some arbitrary end time
 
 		runner.runInitialize(params);  // initialize the run
 
