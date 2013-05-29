@@ -24,9 +24,9 @@ public class ManualRunnerMain {
 		return params;
 	}
 	
-	private static Parameters loadParameters() {
+	/*private static Parameters loadParameters() {
 		return loadParameters(30, 3);
-	}
+	}*/
 	
 	public static void main(String[] args){
 

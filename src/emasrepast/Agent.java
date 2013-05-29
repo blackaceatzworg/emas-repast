@@ -26,8 +26,9 @@ import communication.server.NodesContainer;
 
 public class Agent {
 
-	private static final double REPRODUCING_THRESHOLD = 0.6;
-	private static final double TRAVELLING_THRESHOLD = 0.6;
+	private static final int WORK_STEPS = 500000;
+	private static final double REPRODUCING_THRESHOLD = 0.9;
+	private static final double TRAVELLING_THRESHOLD = 1.16;
 	private static final double DYING_THRESHOLD = 0.3;
 	private static final int MAX_FIT = 20;
 	private ContinuousSpace<Object> space;
@@ -55,6 +56,15 @@ public class Agent {
 		_readyToWork = false; //agent has migrated, it is not ready to work yet
 	}
 
+	private int doSomeHeavyWork (int n, int a){
+		while (n > 3)
+		{
+			a = a * a % n;
+			n--;
+		}
+		return a;
+	}
+	
 	@ScheduledMethod(start = 1, interval = 1)
 	public void step() {
 		if (!readyToWork())
@@ -79,6 +89,9 @@ public class Agent {
 		// maxCount = cell.size();
 		// }
 		// }
+		//System.out.println("STARTING_ENERGY: "+startingEnergy + " ENERGY: " + energy);
+		
+		doSomeHeavyWork(WORK_STEPS, RandomHelper.nextInt());
 
 		moveTowards(randomPoint);
 		meetOrTravel();
@@ -203,7 +216,7 @@ public class Agent {
 	}
 	
 	private void travel() {
-//		System.out.println("TRAVELLING");
+		System.out.println("TRAVELLING");
 		String rmiHost = ConfigReader.getRmiHost();
         Integer rmiPort = ConfigReader.getRmiPort();
         List <String> hosts = ConfigReader.getHosts();
