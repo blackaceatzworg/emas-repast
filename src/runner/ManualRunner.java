@@ -57,7 +57,7 @@ public class ManualRunner extends AbstractRunner {
 	}
 
 	public void cleanUpRun() {
-		controller.runCleanup();
+		//controller.runCleanup();
 	}
 
 	public void cleanUpBatch() {

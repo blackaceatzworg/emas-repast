@@ -2,8 +2,10 @@ package runner;
 
 import java.io.File;
 import java.rmi.RemoteException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import communication.ServerHolder;
+import emasrepast.EmasAgentsBuilder;
 
 import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.parameter.Parameters;
@@ -30,13 +32,13 @@ public class ManualRunnerMain {
 	
 	public static void main(String[] args){
 
-		args[0] = (System.getProperty("user.dir")) + "\\emasrepast.rs\\";
+		//args[0] = (System.getProperty("user.dir")) + "\\emasrepast.rs\\";
 		File file = new File(args[0]); // the scenario dir
 
 		long startTime = System.nanoTime();
 				
-		int agentCount = 100;
-		int islandsPerNode = 2;
+		int agentCount = Integer.parseInt(args[1]);
+		int islandsPerNode = Integer.parseInt(args[2])	;
 		
 		
 		ManualRunner runner = new ManualRunner();
@@ -68,9 +70,14 @@ public class ManualRunnerMain {
 			e.printStackTrace();
 		}
 		
+		Double executionTime = (System.nanoTime()-startTime)/1000000000.0;
+		
+		System.out.println("TravellingCount: "+EmasAgentsBuilder.getTravellingCount()+"\nTravels/s: "+ (double)(EmasAgentsBuilder.getTravellingCount())/executionTime);
 		System.out.println("Final execution time of " + agentCount + " agents on " + islandsPerNode + " islands:");
-		System.out.println((System.nanoTime()-startTime)/1000000000.0+"s");
+		System.out.println(executionTime+"s");
 		
 		
 	}
+	
+
 }

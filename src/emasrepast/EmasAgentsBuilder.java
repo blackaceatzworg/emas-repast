@@ -2,6 +2,7 @@ package emasrepast;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import communication.Server;
 import communication.ServerHolder;
@@ -22,6 +23,7 @@ import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridBuilderParameters;
 import repast.simphony.space.grid.SimpleGridAdder;
 import repast.simphony.space.grid.WrapAroundBorders;
+import runner.ManualRunnerMain;
 
 public class EmasAgentsBuilder implements ContextBuilder<Object> {
 
@@ -30,6 +32,15 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 	private static Context<Object> mainContext;
 	public static ArrayList<Island> islands;
 	public static int ISLANDS_COUNT;
+	private static AtomicInteger travellingCount = new AtomicInteger(0);
+
+	public static void incrementTravellingCount() {
+		travellingCount.addAndGet(1);
+	}
+	
+	public static int getTravellingCount() {
+		return travellingCount.get();
+	}
 	
 	
 	@SuppressWarnings("rawtypes")

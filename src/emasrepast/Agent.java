@@ -4,10 +4,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
-import repast.simphony.context.Context;
-import repast.simphony.engine.environment.RunState;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.query.space.grid.GridCell;
 import repast.simphony.query.space.grid.GridCellNgh;
@@ -216,7 +215,6 @@ public class Agent {
 	}
 	
 	private void travel() {
-		System.out.println("TRAVELLING");
 		String rmiHost = ConfigReader.getRmiHost();
         Integer rmiPort = ConfigReader.getRmiPort();
         List <String> hosts = ConfigReader.getHosts();
@@ -227,14 +225,15 @@ public class Agent {
 			NodesContainer stub = (NodesContainer) registry.lookup("RegistryContainer");
 			
 			Node node = stub.getNodeByName("NodeServer"+targetHost);
+			if (node == null)
+				return;
+			EmasAgentsBuilder.incrementTravellingCount();
+			System.out.println("TRAVELLING");
 			node.addAgent(energy, startingEnergy);
-//			System.out.println("TRAVELLING");
-//			for (Island isl : EmasAgentsBuilder.islands){
-//				System.out.print(isl.getId() + ": " + isl.getAgentCount()+"\t| ");
-//			}
-//			System.out.println();
 			ContextUtils.getContext(this).remove(this);
         } catch (RemoteException e) {
+            System.err.println("Target host: " + targetHost + " not ready.");
+        } catch (ConcurrentModificationException e) {
             System.err.println("Target host: " + targetHost + " not ready.");
         } catch (Exception e) {
             e.printStackTrace();
