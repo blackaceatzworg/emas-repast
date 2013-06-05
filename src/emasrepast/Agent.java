@@ -79,7 +79,9 @@ public class Agent {
 		List<GridCell<Agent>> gridCells = nghCreator.getNeighborhood(true);
 		SimUtilities.shuffle(gridCells, RandomHelper.getUniform());
 
-		int randomIndex = RandomHelper.nextIntFromTo(0, gridCells.size() - 1);
+		int randomIndex = doSomeHeavyWork(WORK_STEPS, RandomHelper.nextInt()) % gridCells.size();
+		
+		//int randomIndex = RandomHelper.nextIntFromTo(0, gridCells.size() - 1);
 		GridPoint randomPoint = gridCells.get(randomIndex).getPoint();
 		// int maxCount = -1;
 		// for (GridCell<Agent> cell : gridCells) {
@@ -89,8 +91,6 @@ public class Agent {
 		// }
 		// }
 		//System.out.println("STARTING_ENERGY: "+startingEnergy + " ENERGY: " + energy);
-		
-		doSomeHeavyWork(WORK_STEPS, RandomHelper.nextInt());
 
 		moveTowards(randomPoint);
 		meetOrTravel();
@@ -226,7 +226,7 @@ public class Agent {
 			
 			Node node = stub.getNodeByName("NodeServer"+targetHost);
 			if (node == null)
-				return;
+				throw new RemoteException();
 			EmasAgentsBuilder.incrementTravellingCount();
 			System.out.println("TRAVELLING");
 			node.addAgent(energy, startingEnergy);
