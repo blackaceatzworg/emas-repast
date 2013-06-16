@@ -8,4 +8,5 @@ public interface Node extends Remote {
     int getAgentCount() throws RemoteException;
     String getName() throws RemoteException;
 	void cleanUp() throws RemoteException;
+	int getTravelCount() throws RemoteException;
 }

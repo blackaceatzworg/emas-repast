@@ -154,29 +154,16 @@ public class Agent {
 	}
 
 	private void exchangeEnergiesWith(Agent other) {
-//		Context<Object> context = ContextUtils.getContext(other);
-
-//		Network<Object> net = (Network<Object>) context
-//				.getProjection("greetings network");
-
-		// Agent other = (Agent) obj;
 		int mine = this.computeFitness();
 		int his = other.computeFitness();
 		int diff = MAX_FIT / 5;
 		if (mine > his) {
 			this.increaseEnergy(diff);
 			other.decreaseEnergy(diff);
-
-//			net.addEdge(this, other);
 		} else if (mine < his) {
 			this.decreaseEnergy(diff);
 			other.increaseEnergy(diff);
-
-//			net.addEdge(other, this);
-		} else {
-//			net.addEdge(this, other);
-//			net.addEdge(other, this);
-		}
+		} 
 	}
 
 	private void moveTowards(GridPoint pt) {

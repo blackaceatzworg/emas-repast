@@ -21,7 +21,13 @@ public class Server extends UnicastRemoteObject implements Node {
 	private Context<Object> context;
 	private List<Island> islands;
 	private NodesContainer stub;
+	private int travelCount;
+	
 
+
+	public int getTravelCount() throws RemoteException {
+		return travelCount;
+	}
 
 	public Server(Context<Object> mainContext, List<Island> islands) throws RemoteException{
 		try {
@@ -48,6 +54,9 @@ public class Server extends UnicastRemoteObject implements Node {
 		NdPoint pt = island.getSpace().getLocation(toAdd);
 		island.getGrid().moveTo(toAdd, (int) pt.getX(), (int) pt.getY());
 		toAdd.setReadyToWork(true);
+		
+		travelCount++;
+		
 		return "Agent added to island " + targetIslandIndex + "!";
 	}
 

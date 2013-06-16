@@ -26,13 +26,9 @@ public class ManualRunnerMain {
 		return params;
 	}
 	
-	/*private static Parameters loadParameters() {
-		return loadParameters(30, 3);
-	}*/
-	
+
 	public static void main(String[] args){
 
-		//args[0] = (System.getProperty("user.dir")) + "\\emasrepast.rs\\";
 		File file = new File(args[0]); // the scenario dir
 
 		long startTime = System.nanoTime();

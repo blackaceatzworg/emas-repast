@@ -4,9 +4,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import communication.Server;
-import communication.ServerHolder;
-
 import repast.simphony.context.Context;
 import repast.simphony.context.space.continuous.ContinuousSpaceFactory;
 import repast.simphony.context.space.continuous.ContinuousSpaceFactoryFinder;
@@ -23,7 +20,9 @@ import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridBuilderParameters;
 import repast.simphony.space.grid.SimpleGridAdder;
 import repast.simphony.space.grid.WrapAroundBorders;
-import runner.ManualRunnerMain;
+
+import communication.Server;
+import communication.ServerHolder;
 
 public class EmasAgentsBuilder implements ContextBuilder<Object> {
 
@@ -56,9 +55,6 @@ public class EmasAgentsBuilder implements ContextBuilder<Object> {
 		islands = new ArrayList<Island>();
 		
 		for(int i = 0; i< ISLANDS_COUNT; i++){	
-//			NetworkBuilder<Object> netBuilder = new NetworkBuilder<Object>(
-//					"greetings network", context, true);
-//			netBuilder.buildNetwork();
 			
 			Island subcontext = new Island("island"+i);
 			
